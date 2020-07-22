@@ -22,7 +22,7 @@ d_in=[2]
 #Z2-symmetry
 D=[2,2]
 chi_boundry=[20]
-chi_single=[60]
+chi_single=[80]
 chi_try=[60]
 d_in=[1,1]
 
