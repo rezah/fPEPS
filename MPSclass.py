@@ -49,6 +49,8 @@ def setTruncation(theta, chi):
      LA.putBlock(qnum, svd[1].resize(dim, dim)  )
  #print LA
  return GA, GB, LA
+
+
 def sv_merge(svs, bidxs, bidx, sv_mat, chi, len_qn):
     if(len(svs)):
         length = len(svs) + sv_mat.elemNum()

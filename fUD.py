@@ -13,20 +13,19 @@ def Short_TrotterSteps(N_iterF):
 
  List_delN=[]
 
-#  Delta_N=(0.07, N_iterF)
+#  Delta_N=(0.1, N_iterF)
 #  List_delN.append(Delta_N)
 # 
-#  Delta_N=(0.06, N_iterF)
-#  List_delN.append(Delta_N)
-
-
-#  Delta_N=(0.02, N_iterF)
-#  List_delN.append(Delta_N)
-# 
- Delta_N=(0.008, N_iterF)
+ Delta_N=(0.08, N_iterF)
  List_delN.append(Delta_N)
 
- Delta_N=(0.007, N_iterF)
+ Delta_N=(0.06, N_iterF)
+ List_delN.append(Delta_N)
+
+ Delta_N=(0.02, N_iterF)
+ List_delN.append(Delta_N)
+
+ Delta_N=(0.008, N_iterF)
  List_delN.append(Delta_N)
 
  Delta_N=(0.005, N_iterF)
@@ -4213,6 +4212,97 @@ def SmoP(N_x, i, j, Model):
 # return template.reshape(-1)
 
 
+def Up_mat( J, g1, g2, J1, J2, m1, m2):
+  dim=4
+  Mat=uni10.Matrix(dim*dim, dim*dim)
+  Mat.set_zero()
+  for i in xrange(dim):
+   for j in xrange(dim):
+    for m in xrange(dim):
+     for n in xrange(dim):
+
+      if i==0 and j==1  and m==0 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m2
+      if i==0 and j==2 and m==0 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] =m2
+      if i==0 and j==3  and m==0 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = 0
+      if i==1 and j==0  and m==1 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1
+      if i==1 and j==1  and m==1 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1+m2
+      if i==1 and j==2  and m==1 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1+m2
+      if i==1 and j==3  and m==1 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1
+      if i==2 and j==0  and m==2 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1
+      if i==2 and j==1  and m==2 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1+m2
+      if i==2 and j==2  and m==2 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1+m2
+      if i==2 and j==3  and m==2 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m1
+      if i==3 and j==0  and m==3 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = 0
+      if i==3 and j==1  and m==3 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m2
+      if i==3 and j==2 and m==3 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = m2
+      if i==3 and j==3 and m==3 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = 0
+
+  return Mat
+
+
+
+
+def Down_mat( J, g1, g2, J1, J2, n1, n2):
+  dim=4
+  Mat=uni10.Matrix(dim*dim, dim*dim)
+  Mat.set_zero()
+  for i in xrange(dim):
+   for j in xrange(dim):
+    for m in xrange(dim):
+     for n in xrange(dim):
+
+      if i==0 and j==1  and m==0 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n2
+      if i==0 and j==2 and m==0 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] =0
+      if i==0 and j==3  and m==0 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n2
+      if i==1 and j==0  and m==1 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1
+      if i==1 and j==1  and m==1 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1-n2
+      if i==1 and j==2  and m==1 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1
+      if i==1 and j==3  and m==1 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1-n2
+      if i==2 and j==0  and m==2 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = 0
+      if i==2 and j==1  and m==2 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n2
+      if i==2 and j==2  and m==2 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = 0
+      if i==2 and j==3  and m==2 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n2
+      if i==3 and j==0  and m==3 and n==0:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1
+      if i==3 and j==1  and m==3 and n==1:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n2-n1
+      if i==3 and j==2 and m==3 and n==2:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1
+      if i==3 and j==3 and m==3 and n==3:
+        Mat[m*dim*dim*dim+n*dim*dim+i*dim+j] = -n1-n2
+
+  return Mat
+
+
+
+
+
 
 def Ham_mat( J, g1, g2, J1, J2, h1, h2):
   dim=4
@@ -4300,6 +4390,22 @@ def Ham_mat( J, g1, g2, J1, J2, h1, h2):
   #Mat_np=Mat_uni_to_np(Mat)
   #print Mat_np
   return Mat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4580,7 +4686,7 @@ def make_H_row(N_x, d_phys,h, Model,L):
     H_list[i][j]=H*1.0
 
 
-###########################################################################
+################################################################
 
 
   for i in xrange(N_x-1):
@@ -4598,7 +4704,7 @@ def make_H_row(N_x, d_phys,h, Model,L):
     H_list[i][j]=H+H_list[i][j]
 
 
-##############################################################################
+##################################################################
   for i in xrange(N_x-1):
    for j in xrange(N_x):
     ham1=0
@@ -4685,6 +4791,154 @@ def  make_H_long(N_x, d_phys,h, Model):
     H_list[i][j]=H*0.0*h[2]
 
  return H_list
+
+
+
+def make_Up_col( N_x, d_phys, h, Model):
+
+ H_list=[None]*(N_x)
+ for i in xrange(N_x):
+  H_list[i]=[None]*(N_x-1) 
+
+ bdi = uni10.Bond( uni10.BD_IN, d_phys)
+ bdo = uni10.Bond( uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor( [bdi, bdi, bdo, bdo], "Heis")
+
+
+ for i in xrange(N_x):
+  for j in xrange(N_x-1):
+   if j==0:
+    ham=Up_mat( 0.0,  0.0, 0.0, 0., 0., 1.0*2., 1.0)
+
+   elif j==N_x-2 :
+    ham=Up_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0*2.)
+
+   else:
+    ham=Up_mat( 0.0,  0.0, 0.0, 0., 0., 1.0, 1.0)
+
+   H.setRawElem(ham*0.25)
+   H_list[i][j]=H*1.0
+
+ return H_list
+
+
+
+def make_Up_row(N_x, d_phys,h, Model):
+
+ bdi = uni10.Bond(uni10.BD_IN, d_phys)
+ bdo = uni10.Bond(uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor([bdi, bdi, bdo, bdo], "Heis")
+
+ H_list=[None]*(N_x-1)
+ for i in xrange(N_x-1):
+  H_list[i]=[None]*N_x 
+
+ bdi = uni10.Bond( uni10.BD_IN, d_phys)
+ bdo = uni10.Bond( uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor( [bdi, bdi, bdo, bdo], "Heis")
+
+ for i in xrange(N_x-1):
+  for j in xrange(N_x):
+
+   if i==0 :
+    ham=Up_mat( 0.0,  0.0, 0.0,  0., 0., 1.0*2., 1.0)
+
+   elif i==N_x-2:
+    ham=Up_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0*2.)
+
+   else:
+    ham=Up_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0)
+
+   H.setRawElem(ham*0.25)
+   H_list[i][j]=H*1.0
+
+
+ return H_list
+
+
+
+
+def make_Down_row(N_x, d_phys,h, Model):
+
+ bdi = uni10.Bond(uni10.BD_IN, d_phys)
+ bdo = uni10.Bond(uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor([bdi, bdi, bdo, bdo], "Heis")
+
+ H_list=[None]*(N_x-1)
+ for i in xrange(N_x-1):
+  H_list[i]=[None]*N_x 
+
+ bdi = uni10.Bond( uni10.BD_IN, d_phys)
+ bdo = uni10.Bond( uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor( [bdi, bdi, bdo, bdo], "Heis")
+
+ for i in xrange(N_x-1):
+  for j in xrange(N_x):
+
+   if i==0 :
+    ham=Down_mat( 0.0,  0.0, 0.0,  0., 0., 1.0*2., 1.0)
+
+   elif i==N_x-2:
+    ham=Down_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0*2.)
+
+   else:
+    ham=Down_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0)
+
+   H.setRawElem(ham*0.25)
+   H_list[i][j]=H*1.0
+
+
+ return H_list
+
+
+
+
+
+
+
+
+def make_Down_col( N_x, d_phys, h, Model):
+
+ H_list=[None]*(N_x)
+ for i in xrange(N_x):
+  H_list[i]=[None]*(N_x-1) 
+
+ bdi = uni10.Bond( uni10.BD_IN, d_phys)
+ bdo = uni10.Bond( uni10.BD_OUT, d_phys)
+ H = uni10.UniTensor( [bdi, bdi, bdo, bdo], "Heis")
+
+
+ for i in xrange(N_x):
+  for j in xrange(N_x-1):
+   if j==0:
+    ham=Down_mat( 0.0,  0.0, 0.0, 0., 0., 1.0*2., 1.0)
+
+   elif j==N_x-2 :
+    ham=Down_mat( 0.0,  0.0, 0.0, 0., 0.,1.0, 1.0*2.)
+
+   else:
+    ham=Down_mat( 0.0,  0.0, 0.0, 0., 0., 1.0, 1.0)
+
+   H.setRawElem(ham*0.25)
+   H_list[i][j]=H*1.0
+
+ return H_list
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5272,7 +5526,7 @@ def TEBD_Full( H_col, H_row, N_x, PEPS_listten, E_iter_list, D, accuracy, N_tebd
 
 
 #######@profile
-def  TEBD_Full_RG( H_col, H_row, N_x, PEPS_listten, E_iter_list, D, accuracy, N_tebd, i, d, chi_single, chi_try, mps_boundry_temp, mps_boundry_left, mps_boundry_right, threshold, interval, Model, count_list, E_iter_list1, Sys, N_part, h_coupling, N_col, N_row, Sz_col, Sz_row):
+def  TEBD_Full_RG( H_col, H_row, N_x, PEPS_listten, D, accuracy, N_tebd, i, d, chi_single, chi_try, threshold, interval, Model, Sys, N_part, h_coupling, N_col, N_row, Sz_col, Sz_row, Up_col,Up_row, Down_col, Down_row, N_sz):
 
 
  PEPS_listtenU=[None]*N_x
@@ -5314,6 +5568,8 @@ def  TEBD_Full_RG( H_col, H_row, N_x, PEPS_listten, E_iter_list, D, accuracy, N_
  E_iter_list1=[]
  Error_try=[]
  E_tebd=[]
+ Up_list=[]
+ Down_list=[]
 
  E_E0=[]
 
@@ -5336,60 +5592,66 @@ def  TEBD_Full_RG( H_col, H_row, N_x, PEPS_listten, E_iter_list, D, accuracy, N_
 
   rho_row, rho_col=make_density_matrix_sinlgeLayer( PEPS_listten, N_x, chi_single, d, D, Sys)
   N_0=Energy_from_Density(rho_row, rho_col, N_col, N_row, N_x)
-  print "N", N_0
-
+  print "total particle=", N_0
   Sz_0=Energy_from_Density(rho_row, rho_col, Sz_col, Sz_row, N_x)
-  print "Sz", Sz_0
+  print "total mag=", Sz_0
+  Up_0=Energy_from_Density(rho_row, rho_col, Up_col, Up_row, N_x)
+  print "up spins=", Up_0
+  Down_0=Energy_from_Density(rho_row, rho_col, Down_col, Down_row, N_x)
+  print "Down spins=", Down_0
+  print "Down_spins+up_spins", Down_0+Up_0
+
+
 
   Energy_val=Energy_cal( PEPS_listten, d, chi_single, N_x, D, H_col, H_row, Sys)
   E_0=Energy_val
-  #E_00=E_00_f*1.0
   E_11=Energy_val*1.0
-  print "E_0", Energy_val
-  print "E_final",(Energy_val-h_coupling[2]*N_part)*0.5
-  print "E_final",(Energy_val-h_coupling[2]*N_0)*0.5
-  E_peps=(Energy_val-h_coupling[2]*N_part)*0.5
+  print "pure energy=", Energy_val
+  print "no chamical/mag energy",(Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5
   E_fermi=math.pi*(N_part/(N_x*N_x))
   E_unit=0.5*N_part*E_fermi
-  print "E_total",  E_unit, E_peps/E_unit
+  print "regularized energy",  ((Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5)/E_unit
 
-  #E_iter_list1.append("E_0, PEPS")
-  #E_iter_list1.append(Energy_val)
 
 
   PEPS_listtenU=copy_f(PEPS_listten,N_x, PEPS_listtenU)
   PEPS_listten=copy_f( PEPS_listtenU, N_x, PEPS_listten)
 
   for q_iter in xrange(N_iter[0]):
-
-   rho_row, rho_col=make_density_matrix_sinlgeLayer( PEPS_listten, N_x, chi_single, d,D,Sys)
-   N_0=Energy_from_Density(rho_row, rho_col, N_col, N_row, N_x)
-   Sz_0=Energy_from_Density(rho_row, rho_col, Sz_col, Sz_row, N_x)
-   print "Sz", Sz_0
-   Energy_val=Energy_cal( PEPS_listten, d, chi_single, N_x, D, H_col, H_row, Sys)
-   print "N", N_0
-   print "E_0", Energy_val
-   print "E_final",(Energy_val-h_coupling[2]*N_part)*0.5
-   print "E_final",(Energy_val-h_coupling[2]*N_0)*0.5
-   E_peps=(Energy_val-h_coupling[2]*N_part)*0.5
-   E_fermi=math.pi*(N_part/(N_x*N_x))
-   E_unit=0.5*N_part*E_fermi
-   print "E_total",  E_unit, E_peps/E_unit
+   if N_tebd[2]=="on":
+    rho_row, rho_col=make_density_matrix_sinlgeLayer( PEPS_listten, N_x, chi_single, d,D,Sys)
+    N_0=Energy_from_Density(rho_row, rho_col, N_col, N_row, N_x)
+    Sz_0=Energy_from_Density(rho_row, rho_col, Sz_col, Sz_row, N_x)
+    print "total mag=", Sz_0
+    Up_0=Energy_from_Density(rho_row, rho_col, Up_col, Up_row, N_x)
+    print "up spins=", Up_0
+    Down_0=Energy_from_Density(rho_row, rho_col, Down_col, Down_row, N_x)
+    print "Down spins=", Down_0
+    print "Down_spins+up_spins", Down_0+Up_0
+    Up_list.append(Up_0)
+    Down_list.append(Down_0)
 
 
-   E_iter_list.append(  (Energy_val-h_coupling[2]*N_0)*0.5  )
-   E_list_try.append(   (Energy_val-h_coupling[2]*N_part)*0.5    )
-   E_try1.append(   E_peps/E_unit    )
+    Energy_val=Energy_cal( PEPS_listten, d, chi_single, N_x, D, H_col, H_row, Sys)
+    print "total particle=", N_0
+    print "pure energy=", Energy_val
+    print "no chamical/mag energy",((Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5)
+    E_fermi=math.pi*(N_part/(N_x*N_x))
+    E_unit=0.5*N_part*E_fermi
+    print "regularized energy",  ((Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5)/E_unit
 
 
-   N_list.append(N_0)
-   Sz_list.append(Sz_0)
-   E_E0.append(Energy_val)
-   file = open("EnergyRG.txt", "w")
-   for index in xrange(len(E_iter_list)):
-    #print index, E_try1[index]
-    file.write(str(index) + " " + str(E_iter_list[index])+" " + str(E_try1[index])+" " + str(E_list_try[index])+" "+str(E_E0[index])+" "+str(N_list[index])+" "+str(Sz_list[index])+" "+ "\n")
-   file.close()
+    E_iter_list.append( ((Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5) )
+    E_try1.append(   ((Energy_val-h_coupling[2]*N_part-h_coupling[3]*N_sz)*0.5)/E_unit    )
+    E_iter_list1.append(Energy_val)
+
+
+    N_list.append(N_0)
+    Sz_list.append(Sz_0)
+    file = open("Data/EnergyRG.txt", "w")
+    for index in xrange(len(E_iter_list)):
+     file.write(str(index) + " " + str(E_iter_list1[index])+" " + str(E_iter_list[index])+" " + str(E_try1[index])+" " +str(N_list[index])+" "+str(Sz_list[index])+" " +str(Up_list[index])+" " +str(Down_list[index])+ "\n")
+    file.close()
 
 
 ##########################   Col   #############################
@@ -5459,7 +5721,7 @@ def  TEBD_Full_RG( H_col, H_row, N_x, PEPS_listten, E_iter_list, D, accuracy, N_
    Error_try.append((E_11-E_00) / E_11)
    E_tebd.append(E_11)
 
-   file = open("TEBD.txt", "w")
+   file = open("Data/TEBD.txt", "w")
    for index in range(len(Error_try)):
     file.write(str(index) + " " + str(Error_try[index])+" " + str(E_tebd[index])+" "+ "\n")
    file.close()
@@ -12463,16 +12725,47 @@ def Sqrt_minor(Landa):
 
 
 
+def Randomize_pepes(PEPS_listten, label, N_x, N_y):
+
+ for i in xrange(N_x):
+  for j in xrange(N_y):
+   if label=="Q":
+    PEPS_listten[i][j].orthoRand()
+   if label=="U":
+    PEPS_listten[i][j].randomize()
+   if label=="UQ":
+    if i%2==0 and j%2==0: PEPS_listten[i][j].randomize();
+    else:PEPS_listten[i][j].orthoRand()
+   if label=="H":
+     PEPS_listten[i][j]=tensor_init_hand(PEPS_listten[i][j])
+   if label=="I":
+     PEPS_listten[i][j].identity()
+
+
+
+ return PEPS_listten
 
 
 
 
+def tensor_init_hand(Landa):
+ q0_even = uni10.Qnum(0,uni10.PRT_EVEN);
+ q0_odd = uni10.Qnum(0,uni10.PRT_ODD);
 
+ blk_qnums = Landa.blockQnum()
+ for qnum in blk_qnums:
+  M=Landa.getBlock(qnum)
+  if qnum == q0_even:
+   M.randomize()
+   M=M*0.1
+   M[0]=1.00
+  else: 
+   M.randomize()
+   M=M*0.1
+   #M[0]=.200
+  Landa.putBlock(qnum,M)
 
-
-
-
-
+ return Landa
 
 
 
@@ -12564,7 +12857,7 @@ def Landa_f_col_rebonding(PEPS_listtenRG, Landa_col, N_x):
 
 
 
-def Landa_f_col(D, N_x):
+def Landa_f_col(D, N_x, l_l):
 
  q0_even = uni10.Qnum(0,uni10.PRT_EVEN);
  q0_odd = uni10.Qnum(0,uni10.PRT_ODD);
@@ -12572,11 +12865,17 @@ def Landa_f_col(D, N_x):
  bdi = uni10.Bond(uni10.BD_IN, D)
  bdo = uni10.Bond(uni10.BD_OUT, D)
  Landa=uni10.UniTensor([bdi,bdo],"Landa_1")
- Landa.identity()
- Landa.randomize()
- #Landa=Landa*.0001
- #Landa.orthoRand()
- #Landa=sparce_init(Landa)
+
+ if l_l=="U":
+  Landa.randomize()
+ if l_l=="I":
+  Landa.identity()
+ if l_l=="Q":
+  Landa.orthoRand()
+ if l_l=="H":
+  Landa=sparce_init(Landa)
+
+
 
  bdi = uni10.Bond(uni10.BD_IN, 1)
  bdo = uni10.Bond(uni10.BD_OUT, 1)
@@ -12598,7 +12897,7 @@ def Landa_f_col(D, N_x):
  return   Landa_col
 
 
-def Landa_f_row(D, N_x):
+def Landa_f_row(D, N_x, l_l):
 
  q0_even = uni10.Qnum(0,uni10.PRT_EVEN);
  q0_odd = uni10.Qnum(0,uni10.PRT_ODD);
@@ -12606,10 +12905,14 @@ def Landa_f_row(D, N_x):
  bdi = uni10.Bond(uni10.BD_IN, D)
  bdo = uni10.Bond(uni10.BD_OUT, D)
  Landa=uni10.UniTensor([bdi,bdo],"Landa_1")
- Landa.randomize()
- #Landa.identity()
- #Landa.orthoRand()
- #Landa=sparce_init(Landa)
+ if l_l=="U":
+  Landa.randomize()
+ if l_l=="I":
+  Landa.identity()
+ if l_l=="Q":
+  Landa.orthoRand()
+ if l_l=="H":
+  Landa=sparce_init(Landa)
 
  bdi = uni10.Bond(uni10.BD_IN, 1)
  bdo = uni10.Bond(uni10.BD_OUT, 1)
@@ -12639,11 +12942,11 @@ def sparce_init(Landa):
   M=Landa.getBlock(qnum)
   if qnum == q0_even:
    M.randomize()
-   M=M*0.1
+   M=M*0.2
    M[0]=1.00
   else: 
    M.randomize()
-   M=M*0.1
+   M=M*0.2
    #M[0]=.200
   Landa.putBlock(qnum,M)
 
@@ -13070,7 +13373,7 @@ def simple_update( PEPS_listten, Landa_col, Landa_row, start_itebd, division_ite
    N_iter=N_iterF
   if delta<1.0e-3  and delta>1.0e-5:
    N_iter=N_iterF
-  if delta<1.0e-5:
+  if delta<1.0e-6:
    break
 
 
